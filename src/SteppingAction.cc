@@ -33,8 +33,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step) {
     //if (remainingEnergy == 0) {
         //G4cout << "[PROTON STOPPED] Final Position: " << track->GetPosition() << G4endl;
     
-
-    // Track energy loss in air vs. silicon
+ 
     if (volumeName == "World") {
         G4cout << "[IN AIR] Energy Loss: " << energyLoss / MeV << " MeV" << G4endl;
     } else if (volumeName == "Silicon") {
