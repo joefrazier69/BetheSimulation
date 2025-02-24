@@ -10,12 +10,11 @@
 #include "G4Colour.hh"
 
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(), fSiliconSize(50 * cm) {
-    fMessenger = new DetectorMessenger(this); // Create messenger
+    fMessenger = new DetectorMessenger(this);  
 }
 
 DetectorConstruction::~DetectorConstruction() {
-    delete fMessenger; // Cleanup
-}
+    delete fMessenger;  
 
 void DetectorConstruction::SetSiliconSize(G4double size) {
     fSiliconSize = size;
@@ -27,28 +26,28 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
     G4Material* air = nist->FindOrBuildMaterial("G4_AIR");
     G4Material* Silicon = nist->FindOrBuildMaterial("G4_Si");
 
-    // World volume
-    G4double worldSize = 100 * cm;  // Increase world size for larger detector
+    
+    G4double worldSize = 100 * cm;  
     G4Box* solidWorld = new G4Box("World", worldSize/2, worldSize/2, worldSize/2);
     G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, air, "World");
     G4PVPlacement* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);
 
-    // Increased Silicon Detector Thickness
-    G4double SiliconThickness = 10 * cm;  // Increased from 10cm to 50cm
+     
+    G4double SiliconThickness = 10 * cm;  
     G4double SiliconWidth = 10 * cm;
     G4double SiliconHeight = 10 * cm;
 
     G4Box* solidSilicon = new G4Box("Silicon", SiliconWidth/2, SiliconHeight/2, SiliconThickness/2);
     G4LogicalVolume* logicSilicon = new G4LogicalVolume(solidSilicon, Silicon, "Silicon");
 
-    // Adjust detector placement to avoid overlaps
+     
     new G4PVPlacement(0, G4ThreeVector(0, 0, 25 * cm), logicSilicon, "Silicon", logicWorld, false, 0, checkOverlaps);
 
-    // Set Visualization Attributes
-    logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); // Hide world
-    G4VisAttributes* SiliconVis = new G4VisAttributes(G4Colour::White()); // Green color for visibility
+    
+    logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); 
+    G4VisAttributes* SiliconVis = new G4VisAttributes(G4Colour::Green()); 
     SiliconVis->SetVisibility(true);
-    SiliconVis->SetForceSolid(true);  // Ensures it is solid in visualization
+    SiliconVis->SetForceSolid(true);   
     logicSilicon->SetVisAttributes(SiliconVis);
 
     // Debugging Output
