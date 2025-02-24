@@ -20,7 +20,7 @@
 #include "G4SDManager.hh"
 
 class G4VPhysicalVolume;
-class DetectorMessenger; // Forward declaration
+class DetectorMessenger;  
 
 class DetectorConstruction : public G4VUserDetectorConstruction {
 public:
@@ -32,7 +32,7 @@ public:
 
 private:
     G4double fSiliconSize;
-    DetectorMessenger* fMessenger; // Messenger instance
+    DetectorMessenger* fMessenger;  
 };
 
 #endif
