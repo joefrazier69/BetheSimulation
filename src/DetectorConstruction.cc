@@ -10,11 +10,12 @@
 #include "G4Colour.hh"
 
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(), fSiliconSize(50 * cm) {
-    fMessenger = new DetectorMessenger(this);  
+    fMessenger = new DetectorMessenger(this); 
 }
 
 DetectorConstruction::~DetectorConstruction() {
-    delete fMessenger;  
+    delete fMessenger; // Cleanup
+}
 
 void DetectorConstruction::SetSiliconSize(G4double size) {
     fSiliconSize = size;
@@ -32,22 +33,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
     G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, air, "World");
     G4PVPlacement* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);
 
-     
-    G4double SiliconThickness = 10 * cm;  
-    G4double SiliconWidth = 10 * cm;
+    
+    G4double SiliconThickness = 2 * cm;  
+    G4double SiliconWidth =  10 * cm;
     G4double SiliconHeight = 10 * cm;
 
     G4Box* solidSilicon = new G4Box("Silicon", SiliconWidth/2, SiliconHeight/2, SiliconThickness/2);
     G4LogicalVolume* logicSilicon = new G4LogicalVolume(solidSilicon, Silicon, "Silicon");
 
-     
-    new G4PVPlacement(0, G4ThreeVector(0, 0, 25 * cm), logicSilicon, "Silicon", logicWorld, false, 0, checkOverlaps);
+    
+    new G4PVPlacement(0, G4ThreeVector(0, 0, 25* cm), logicSilicon, "Silicon", logicWorld, false, 0, checkOverlaps);
 
     
-    logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); 
-    G4VisAttributes* SiliconVis = new G4VisAttributes(G4Colour::Green()); 
+    logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); // Hide world
+    G4VisAttributes* SiliconVis = new G4VisAttributes(G4Colour::White()); // Green color for visibility
     SiliconVis->SetVisibility(true);
-    SiliconVis->SetForceSolid(true);   
+    SiliconVis->SetForceSolid(true);  
     logicSilicon->SetVisAttributes(SiliconVis);
 
     // Debugging Output
