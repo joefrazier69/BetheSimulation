@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 
     UImanager->ApplyCommand("/detector/setSize 10 cm");   
 
-    runManager->BeamOn(100);  
+    runManager->BeamOn(1000);  
 
 
     ui->SessionStart();
