@@ -14,7 +14,7 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(), fS
 }
 
 DetectorConstruction::~DetectorConstruction() {
-    delete fMessenger; // Cleanup
+    delete fMessenger; 
 }
 
 void DetectorConstruction::SetSiliconSize(G4double size) {
@@ -24,13 +24,13 @@ void DetectorConstruction::SetSiliconSize(G4double size) {
 G4VPhysicalVolume* DetectorConstruction::Construct() {
     G4bool checkOverlaps = true;
     G4NistManager* nist = G4NistManager::Instance();
-    G4Material* air = nist->FindOrBuildMaterial("G4_AIR");
+    G4Material* galactic = nist->FindOrBuildMaterial("G4_Galactic");
     G4Material* Silicon = nist->FindOrBuildMaterial("G4_Si");
 
     
     G4double worldSize = 100 * cm;  
     G4Box* solidWorld = new G4Box("World", worldSize/2, worldSize/2, worldSize/2);
-    G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, air, "World");
+    G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, galactic, "World");
     G4PVPlacement* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);
 
     
@@ -42,19 +42,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
     G4LogicalVolume* logicSilicon = new G4LogicalVolume(solidSilicon, Silicon, "Silicon");
 
     
-    new G4PVPlacement(0, G4ThreeVector(0, 0, 25* cm), logicSilicon, "Silicon", logicWorld, false, 0, checkOverlaps);
+    new G4PVPlacement(0, G4ThreeVector(0, 0, 5* cm), logicSilicon, "Silicon", logicWorld, false, 0, checkOverlaps);
 
     
-    logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); // Hide world
-    G4VisAttributes* SiliconVis = new G4VisAttributes(G4Colour::White()); // Green color for visibility
+    logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible()); 
+    G4VisAttributes* SiliconVis = new G4VisAttributes(G4Colour::Green()); 
     SiliconVis->SetVisibility(true);
     SiliconVis->SetForceSolid(true);  
     logicSilicon->SetVisAttributes(SiliconVis);
 
-    // Debugging Output
-    //G4cout << "World constructed: " << logicWorld->GetName() << G4endl;
-    //G4cout << "Silicon detector constructed: " << logicSilicon->GetName() << G4endl;
-    //G4cout << "Silicon detector thickness: " << SiliconThickness / cm << " cm" << G4endl;
-
+    
     return physWorld;
 }
