@@ -16,7 +16,7 @@ void RunAction::EndOfRunAction(const G4Run* run) {
 
      
     G4double totalEnergyDeposited = fSteppingAction->GetTotalEnergyDeposited();
-    G4double mass = 2.329 * kg;   
+    G4double mass = 0.4658 * kg;   
     G4double dose = totalEnergyDeposited / mass;
 
      
