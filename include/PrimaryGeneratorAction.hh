@@ -1,18 +1,18 @@
-#ifndef RunAction_h
-#define RunAction_h 1
+#ifndef PrimaryGeneratorAction_h
+#define PrimaryGeneratorAction_h 1
 
-#include "G4UserRunAction.hh"
-#include "SteppingAction.hh"
-#include "globals.hh"
-class RunAction : public G4UserRunAction {
+#include "G4VUserPrimaryGeneratorAction.hh"
+#include "G4ParticleGun.hh"
+
+class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
 public:
-    RunAction(SteppingAction* steppingAction);
-    virtual ~RunAction();
+    PrimaryGeneratorAction();
+    virtual ~PrimaryGeneratorAction();
 
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void EndOfRunAction(const G4Run*);
+    virtual void GeneratePrimaries(G4Event* anEvent);
+
 private:
-    SteppingAction* fSteppingAction;
+    G4ParticleGun* fParticleGun;
 };
 
 #endif
